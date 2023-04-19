@@ -7,8 +7,7 @@ import java.util.Date;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 
 @Data
@@ -16,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Task {
 
 	    private int task_id;
+		private int user_id;
 	    private String title;
 	    private String description;
 	    private String status;

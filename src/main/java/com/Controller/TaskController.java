@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.Entities.User;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -51,7 +52,7 @@ public class TaskController  {
         User user = (User)session.getAttribute("user");
 
         // TODO: CREATE Task:
-        taskDao.createTask(task_id , title , description , status , dueDate);
+        taskDao.createTask(task_id , user.getUser_id() , title , description , status , dueDate);
 
         // Set Success message:
         redirectAttributes.addFlashAttribute("success", "Task Created Successfully!");
@@ -118,63 +119,83 @@ public class TaskController  {
 
 
     @PostMapping("/sortTask_ByTitle")
-    public ModelAndView sortByTitle(){
+    public ModelAndView sortByTitle(HttpSession session){
         // Set View:
         ModelAndView getViewPage = new ModelAndView("viewAllTask");
-
+        User user = (User)session.getAttribute("user");
         // get all task
         List<Task> tasks = taskDao.getAllTask();
 
-        Collections.sort(tasks, new Comparator<Task>() {
+        List<Task> tasksNew = new ArrayList<>();
+        for(Task task : tasks){
+            if(task.getUser_id() == user.getUser_id()){
+                tasksNew.add(task);
+            }
+        }
+
+        Collections.sort(tasksNew, new Comparator<Task>() {
             @Override
             public int compare(Task t1, Task t2) {
                 return t1.getTitle().compareTo(t2.getTitle());
             }
         });
 
-        getViewPage.addObject("viewAllTask", tasks);
+        getViewPage.addObject("viewAllTask",tasksNew);
 
         return getViewPage;
 
     }
 
     @PostMapping("/sortTask_ByStatus")
-    public ModelAndView sortByStatus(){
+    public ModelAndView sortByStatus(HttpSession session){
         // Set View:
         ModelAndView getViewPage = new ModelAndView("viewAllTask");
-
+        User user = (User)session.getAttribute("user");
         // get all task
         List<Task> tasks = taskDao.getAllTask();
 
-        Collections.sort(tasks, new Comparator<Task>() {
+        List<Task> tasksNew = new ArrayList<>();
+        for(Task task : tasks){
+            if(task.getUser_id() == user.getUser_id()){
+                tasksNew.add(task);
+            }
+        }
+
+        Collections.sort(tasksNew, new Comparator<Task>() {
             @Override
             public int compare(Task t1, Task t2) {
                 return t1.getStatus().compareTo(t2.getStatus());
             }
         });
 
-        getViewPage.addObject("viewAllTask", tasks);
+        getViewPage.addObject("viewAllTask", tasksNew);
 
         return getViewPage;
 
     }
 
     @PostMapping("/sortBy_dueDate")
-    public ModelAndView sortByDate(){
+    public ModelAndView sortByDate(HttpSession session){
         // Set View:
         ModelAndView getViewPage = new ModelAndView("viewAllTask");
-
+        User user = (User)session.getAttribute("user");
         // get all task
         List<Task> tasks = taskDao.getAllTask();
 
-        Collections.sort(tasks, new Comparator<Task>() {
+        List<Task> tasksNew = new ArrayList<>();
+        for(Task task : tasks){
+            if(task.getUser_id() == user.getUser_id()){
+                tasksNew.add(task);
+            }
+        }
+        Collections.sort(tasksNew, new Comparator<Task>() {
             @Override
             public int compare(Task t1, Task t2) {
                 return t1.getDueDate().compareTo(t2.getDueDate());
             }
         });
 
-        getViewPage.addObject("viewAllTask", tasks);
+        getViewPage.addObject("viewAllTask", tasksNew);
 
         return getViewPage;
 

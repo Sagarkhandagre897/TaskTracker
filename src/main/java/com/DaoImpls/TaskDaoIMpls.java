@@ -22,14 +22,14 @@ public class TaskDaoIMpls implements TaskDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void createTask( int task_id , String title, String description, String status, String dueDate) {
+    public void createTask( int task_id ,int user_id ,  String title, String description, String status, String dueDate) {
 
-        String query = "CREATE TABLE IF NOT EXISTS tasks(task_id int NOT NULL PRIMARY KEY UNIQUE , title VARCHAR(500) NOT NULL,description VARCHAR(500) NOT NULL,status VARCHAR(50) NOT NULL ,dueDate VARCHAR(50) NOT NULL,created_at TIMESTAMP DEFAULT NOW(),updated_at TIMESTAMP )";
+        String query = "CREATE TABLE IF NOT EXISTS tasks(task_id int NOT NULL PRIMARY KEY UNIQUE , user_id int NOT NULL ,  title VARCHAR(500) NOT NULL,description VARCHAR(500) NOT NULL,status VARCHAR(50) NOT NULL ,dueDate VARCHAR(50) NOT NULL,created_at TIMESTAMP DEFAULT NOW(),updated_at TIMESTAMP )";
         this.jdbcTemplate.update(query);
 
 
 
-        this.jdbcTemplate.update("INSERT INTO tasks(task_id,title,description,status,dueDate) values(?,?,?,?,?)", new Object[] {task_id , title , description , status , dueDate} );
+        this.jdbcTemplate.update("INSERT INTO tasks(task_id,user_id,title,description,status,dueDate) values(?,?,?,?,?,?)", new Object[] {task_id , user_id, title , description , status , dueDate} );
 
     }
 
@@ -46,7 +46,7 @@ public class TaskDaoIMpls implements TaskDao {
     public List<Task> getAllTask() {
 
 
-        String query = "CREATE TABLE IF NOT EXISTS tasks(task_id INT NOT NULL PRIMARY KEY UNIQUE  , title VARCHAR(500) NOT NULL,description VARCHAR(500) NOT NULL,status VARCHAR(50) NOT NULL ,dueDate VARCHAR(50) NOT NULL,created_at TIMESTAMP DEFAULT NOW(),updated_at TIMESTAMP )";
+        String query = "CREATE TABLE IF NOT EXISTS tasks(task_id INT NOT NULL PRIMARY KEY UNIQUE  ,user_id int NOT NULL ,  title VARCHAR(500) NOT NULL,description VARCHAR(500) NOT NULL,status VARCHAR(50) NOT NULL ,dueDate VARCHAR(50) NOT NULL,created_at TIMESTAMP DEFAULT NOW(),updated_at TIMESTAMP )";
         this.jdbcTemplate.update(query);
 
 
@@ -58,7 +58,7 @@ public class TaskDaoIMpls implements TaskDao {
     @Override
     public int chackIdExist(int task_id) {
 
-        String query1 = "CREATE TABLE IF NOT EXISTS tasks(task_id int NOT NULL PRIMARY KEY UNIQUE , title VARCHAR(500) NOT NULL,description VARCHAR(500) NOT NULL,status VARCHAR(50) NOT NULL ,dueDate VARCHAR(50) NOT NULL,created_at TIMESTAMP DEFAULT NOW(),updated_at TIMESTAMP )";
+        String query1 = "CREATE TABLE IF NOT EXISTS tasks(task_id int NOT NULL PRIMARY KEY UNIQUE , user_id int NOT NULL , title VARCHAR(500) NOT NULL,description VARCHAR(500) NOT NULL,status VARCHAR(50) NOT NULL ,dueDate VARCHAR(50) NOT NULL,created_at TIMESTAMP DEFAULT NOW(),updated_at TIMESTAMP )";
         this.jdbcTemplate.update(query1);
 
         String query = "SELECT COUNT(*) FROM tasks WHERE task_id=?";

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TaskDao {
 
-    public void createTask(int task_id,  String title , String description , String status , String dueDate );
+    public void createTask(int task_id, int user_id ,  String title , String description , String status , String dueDate );
 
     public void updateTask(int task_id,  String title , String description , String status , String dueDate );
 

@@ -1,5 +1,6 @@
 package com.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -29,25 +30,37 @@ public class AppController {
         // Get the details of the logged i user:
        User  user = (User)session.getAttribute("user");
 
-       // Get The task Of The Logged In User:
+
        List<Task> getUserTask = taskDao.getAllTask();
 
+        List<Task> tasks = new ArrayList<>();
+        for(Task task :  getUserTask){
+            if(task.getUser_id() == user.getUser_id()){
+                tasks.add(task);
+            }
+        }
+
        // Set Objects:
-       getDashboardPage.addObject("userTasks", getUserTask);
+       getDashboardPage.addObject("userTasks", tasks);
         getDashboardPage.addObject("userName", user.getFirst_name());
 
         return getDashboardPage;
     }
 
     @GetMapping("/viewAllTask")
-    public ModelAndView getViewAllTask(){
+    public ModelAndView getViewAllTask(HttpSession session){
         // Set View:
         ModelAndView getViewPage = new ModelAndView("viewAllTask");
-
+        User  user = (User)session.getAttribute("user");
          // get all task
         List<Task> tasks = taskDao.getAllTask();
-
-        getViewPage.addObject("viewAllTask", tasks);
+        List<Task> tasksNew = new ArrayList<>();
+        for(Task task : tasks){
+            if(task.getUser_id() == user.getUser_id()){
+                tasksNew.add(task);
+            }
+        }
+        getViewPage.addObject("viewAllTask", tasksNew);
 
         return getViewPage;
 
